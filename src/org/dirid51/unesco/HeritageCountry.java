@@ -1,18 +1,26 @@
 package org.dirid51.unesco;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
-public class Country {
+public class HeritageCountry {
 	private String name;
 	private Set<HeritageSite> heritageSites;
 	
-	public Country() {
-		heritageSites = new HashSet<>();
+	public HeritageCountry() {
+		heritageSites = new TreeSet<>(new Comparator<HeritageSite>() {
+
+			@Override
+            public int compare(HeritageSite o1, HeritageSite o2) {
+	            return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+			
+		});
 	}
 	
-	public Country(String name) {
-		heritageSites = new HashSet<>();
+	public HeritageCountry(String name) {
+		this();
 		this.name = name;
 	}
 

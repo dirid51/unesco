@@ -12,21 +12,21 @@ import org.jsoup.select.Elements;
 public class Gather {
 
 //	Selectors: div#acc h4 a[href^=/en/statesparties/], div.list_site ul li a[href^=/en/list/]
-	public Map<String, Country> gatherList(String url, String cssSelector) {
-		Map<String, Country> countries = new HashMap<String, Country>();
+	public Map<String, HeritageCountry> gatherList(String url, String cssSelector) {
+		Map<String, HeritageCountry> heritageCountries = new HashMap<String, HeritageCountry>();
 
 		try {
 			Elements cData = Util.pageData(url, cssSelector);
 			String mostRecentCountry = null;
 			for (Element e : cData) {
 				if (e.attr("href").startsWith("/en/statesparties/")) {
-					Country country = new Country();
-					country.setName(e.text());
-					countries.put(e.text(), country);
+					HeritageCountry heritageCountry = new HeritageCountry();
+					heritageCountry.setName(e.text());
+					heritageCountries.put(e.text(), heritageCountry);
 					mostRecentCountry = e.text();
 				} else {
 					if (mostRecentCountry != null) {
-						countries.get(mostRecentCountry).addHeritageSite(new HeritageSite(e.text(), new URL(e.attr("href"))));
+						heritageCountries.get(mostRecentCountry).addHeritageSite(new HeritageSite(e.text(), new URL(e.attr("href"))));
 					}
 				}
 			}
@@ -34,7 +34,7 @@ public class Gather {
 			e.printStackTrace();
 		}
 
-		return countries;
+		return heritageCountries;
 	}
 
 //	div#contentdes_en, div.box:contains(Long Description), div.box:contains(Historical Description), div.box:contains(Outstanding)

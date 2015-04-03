@@ -43,16 +43,24 @@ public class HeritageSite {
 		return textDescriptions;
 	}
 
-	public void setTextDescriptions(Map<String, String> textDescriptions) {
-		this.textDescriptions = textDescriptions;
+//	public void setTextDescriptions(Map<String, String> textDescriptions) {
+//		this.textDescriptions = textDescriptions;
+//	}
+	
+	public String addTextDescription(String blockTitle, String text) {
+		return this.textDescriptions.put(blockTitle, text);
 	}
 
 	public Set<Path> getImagePaths() {
 		return imagePaths;
 	}
 
-	public void setImagePaths(Set<Path> imagePaths) {
-		this.imagePaths = imagePaths;
+//	public void setImagePaths(Set<Path> imagePaths) {
+//		this.imagePaths = imagePaths;
+//	}
+	
+	public boolean addImagePath(Path imagePath) {
+		return imagePaths.add(imagePath);
 	}
 
 }
