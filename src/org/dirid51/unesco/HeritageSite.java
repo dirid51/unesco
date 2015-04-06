@@ -2,25 +2,34 @@ package org.dirid51.unesco;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class HeritageSite {
 	private String name;
+	private int unescoNumber;
 	private URL url;
 	private URL localUrl;
-	private Map<String, String> textDescriptions;
+	private List<String> textDescriptions;
 	private Set<Path> imagePaths;
 
 	public HeritageSite() {
+		imagePaths = Collections.synchronizedSet(new HashSet<Path>());
+		textDescriptions = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	public HeritageSite(String name) {
+		this();
 		this.name = name;
 	}
 
-	public HeritageSite(String name, URL url, URL localUrl) {
+	public HeritageSite(String name, int unescoNumber, URL url, URL localUrl) {
+		this();
 		this.name = name;
+		this.unescoNumber = unescoNumber;
 		this.url = url;
 		this.localUrl = localUrl;
 	}
@@ -31,6 +40,14 @@ public class HeritageSite {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getUnescoNumber() {
+		return unescoNumber;
+	}
+
+	public void setUnescoNumber(int unescoNumber) {
+		this.unescoNumber = unescoNumber;
 	}
 
 	public URL getUrl() {
@@ -49,7 +66,7 @@ public class HeritageSite {
 		this.localUrl = localUrl;
 	}
 
-	public Map<String, String> getTextDescriptions() {
+	public List<String> getTextDescriptions() {
 		return textDescriptions;
 	}
 
@@ -57,12 +74,16 @@ public class HeritageSite {
 	// this.textDescriptions = textDescriptions;
 	// }
 
-	public String addTextDescription(String blockTitle, String text) {
-		return this.textDescriptions.put(blockTitle, text);
+	public boolean addTextDescription(String text) {
+		return this.textDescriptions.add(text);
+	}
+	
+	public boolean addTextDescriptions(List<String> textDescriptions) {
+		return this.textDescriptions.addAll(textDescriptions);		
 	}
 
 	public Set<Path> getImagePaths() {
-		return imagePaths;
+		return this.imagePaths;
 	}
 
 	// public void setImagePaths(Set<Path> imagePaths) {
@@ -70,7 +91,11 @@ public class HeritageSite {
 	// }
 
 	public boolean addImagePath(Path imagePath) {
-		return imagePaths.add(imagePath);
+		return this.imagePaths.add(imagePath);
+	}
+	
+	public boolean addImagePaths(Set<Path> imagePaths) {
+		return this.imagePaths.addAll(imagePaths);
 	}
 
 }
