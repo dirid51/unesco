@@ -2,6 +2,7 @@ package org.dirid51.unesco;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -45,14 +46,27 @@ public class Main {
 //		Generate HTML documents - Site Pages - save to local machine
 		Set<HeritageSite> sites = extractSites(countries);
 		sites.parallelStream().forEach(s -> {
+			Map<String, String> info = gather.gatherText(s.getUrl().toExternalForm(), "div#contentdes_en, div.box:contains(Long Description), div.box:contains(Historical Description), div.box:contains(Outstanding)", "Description");
 			StringBuilder siteHtml = new StringBuilder("<!DOCTYPE html><html lang=\"en-US\"><meta charset=\"UTF-8\">"
 						+ "<head><title>" + s.getName() + "</title></head><body><h1>" + s.getName() + "</h1>");
+			info.values().forEach(t -> siteHtml.append(t));
 			siteHtml.append("</body></html>");
+			try {
+	            Util.writeFile(Paths.get(s.getLocalUrl().toURI()), siteHtml.toString());
+            } catch (Exception e) {
+	            e.printStackTrace();
+            }
 		});
 	}
 	
 	private Set<HeritageSite> extractSites(Map<String, HeritageCountry> countries) {
-		Set<HeritageSite> sites = new TreeSet<>();
+		Set<HeritageSite> sites = new TreeSet<HeritageSite>(new Comparator<HeritageSite>() {
+
+			@Override
+            public int compare(HeritageSite o1, HeritageSite o2) {
+	            return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+		});
 		
 		countries.values().forEach(hc -> sites.addAll(hc.getHeritageSites()));
 		
