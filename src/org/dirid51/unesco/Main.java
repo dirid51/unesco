@@ -21,7 +21,7 @@ public class Main {
 
 	private static final String WORLD_HERITAGE_LIST_URL = "http://whc.unesco.org/en/list/";
 	private static final String SAVE_TO_DIR = "C:\\Users\\randallbooth\\Desktop\\unesco";
-	private static final String[] REQUIRED_FILE_PATHS = {"/unesco/resources/styles/substyle.css","/unesco/resources/styles/homestyle.css"};
+	private static final String[] REQUIRED_FILE_PATHS = {"/resources/styles/substyle.css","/resources/styles/homestyle.css"};
 
 	public static void main(String[] args) {
 		try {
@@ -44,7 +44,7 @@ public class Main {
 
 		// Generate HTML document - Home Page - and save to local machine
 		StringBuilder homeHtml = new StringBuilder("<!DOCTYPE html><html lang=\"en-US\"><meta charset=\"UTF-8\">"
-						+ "<link rel=\"stylesheet\" href=\"homestyle.css\">"
+						+ "<link rel=\"stylesheet\" href=\"dr_reset.css\"><link rel=\"stylesheet\" href=\"homestyle.css\">"
 		                + "<title>World Heritage Sites</title><body><section id=\"main\"><header><h1>World Heritage Sites</h1></header><nav>Home</nav><section id=\"siteList\"><dl><dt>");
 		for (String c : countries.keySet()) {
 			homeHtml.append("<dt>" + c + "</dt>");
@@ -70,10 +70,16 @@ public class Main {
 			                
 //			                Create UNESCO site web page
 			                StringBuilder siteHtml = new StringBuilder("<!DOCTYPE html><html lang=\"en-US\"><meta charset=\"UTF-8\"><title>"
-			                                + s.getName() + "</title><link rel=\"stylesheet\" href=\"substyle.css\"><body><section id=\"main\"><header><h1>" + s.getName() + "</h1></header>");
+			                                + s.getName() + "</title><link rel=\"stylesheet\" href=\"dr_reset.css\"><link rel=\"stylesheet\" href=\"substyle.css\"><body><section id=\"main\"><header><h1>" + s.getName() + "</h1></header>");
 			                siteHtml.append("<nav><a href=\"unesco_home.html\">Home</a>&nbsp;&gt;&nbsp;" + s.getName() + "</nav>");
 			                siteHtml.append("<section id=\"images\"><p>");
-			                s.getImagePaths().forEach(ip -> siteHtml.append("<img src=\"" + ip.toString() + "\">"));
+			                s.getImagePaths().forEach(ip -> {
+			                	try {
+	                                siteHtml.append("<img src=\"" + (ip.toUri().toURL().toExternalForm()) + "\">");
+                                } catch (Exception e) {
+	                                e.printStackTrace();
+                                }
+			                });
 			                siteHtml.append("</p></section><section id=\"text\">");
 			                s.getTextDescriptions().forEach(t -> siteHtml.append("<article>" + t + "</article>"));
 			                siteHtml.append("</section></section><footer>Source Page: <a href=\"" + s.getUrl().toExternalForm() + "\">" + s.getUrl().toExternalForm() + "</a></footer></body></html>");
@@ -105,7 +111,7 @@ public class Main {
 	        Files.createDirectories(dirPath);
 			for (URL url : imageUrls) {
 				Path imgPath = Paths.get(dirPath.toString(), "img-" + unescoNumber + "-" + imageUrls.indexOf(url) + ".jpg");
-				if (Util.downloadFile(url, imgPath)) {
+				if (Files.exists(imgPath) || Util.downloadFile(url, imgPath)) {
 					imagePaths.add(imgPath);
 					System.out.println("Downloaded file " + imgPath);
 				}

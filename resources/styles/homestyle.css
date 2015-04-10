@@ -1,0 +1,85 @@
+body {
+	background-color: darkslategray;
+	padding: 0;
+	margin: 0;
+}
+
+section#main {
+	width: 50%;
+	margin: 0 auto;
+}
+
+section#main header, section#main nav, section#siteList {
+	border: 3px solid darkslategray;
+	border-radius: 9px;
+	background-color: burlywood;
+}
+
+section#main header {
+	padding: 12px 0;
+}
+
+section#main header h1 {
+	font-size: 9ex;
+	text-align: center;
+}
+
+section#main nav {
+	padding: 12px 20px;
+}
+
+section#siteList {
+	-webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
+	-webkit-column-rule: 1px solid lightslategray; /* Chrome, Safari, Opera */
+    -moz-column-rule: 1px solid lightslategray; /* Firefox */
+    column-rule: 1px solid lightslategray;
+	margin: 0;
+	padding: 0;
+}
+
+section#siteList dl {
+	width: 70%;
+	margin: 0 15%;
+}
+
+section#siteList dl dt {
+	font-variant: small-caps;
+	font-size: 1.5em;
+	margin: 12px 0 8px 0;
+}
+
+section#siteList dl dd {
+}
+
+section#siteList dl dd a {
+	display: inline-block;
+	color: cornflowerblue;
+	text-decoration: none;
+	width: 100%;
+	margin: 3px 0;
+	border: 2px solid burlywood;
+	padding: 3px 12px;
+	background-color: darkslategray;
+	border-radius: 9px;
+	box-shadow: 1px 3px 1px slategray;
+	transition: text-shadow 1s;
+	transition: color 1s;
+}
+
+
+section#siteList dl dd a:hover {
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+
+
+footer {
+	margin: 4px 0 24px 0;
+	font-size: small;
+	background-color: darkslategray;
+	border-top: 2px solid cornflowerblue;
+	padding: 3px;
+	color: lightslategray;
+}
